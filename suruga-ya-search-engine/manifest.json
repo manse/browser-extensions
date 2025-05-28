@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "駿河屋から検索",
+  "version": "1.0",
+  "description": "駿河屋の検索エンジン",
+  "icons": {
+    "48": "icon.png"
+  },
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "駿河屋",
+      "search_url": "https://www.suruga-ya.jp/search?search_word={searchTerms}&is_marketplace=0",
+      "favicon_url": "https://www.suruga-ya.jp/drupal/themes/surugaya_mobile/images/pwa/images/icons/favicon-32x32.png",
+      "encoding": "UTF-8",
+      "is_default": false
+    }
+  }
+}
