@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Feedly Auto Refresh Options</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 20px;
+        min-width: 300px;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+      select {
+        padding: 8px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      button {
+        padding: 10px 15px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      #status {
+        margin-top: 15px;
+        color: green;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Feedly Auto Refresh Options</h1>
+
+    <label for="refreshInterval">Select Refresh Interval:</label>
+    <select id="refreshInterval">
+      <option value="5">5 Minutes</option>
+      <option value="15">15 Minutes</option>
+      <option value="30" selected>30 Minutes</option>
+      <option value="60">1 Hour</option>
+      <option value="180">3 Hours</option>
+      <option value="360">6 Hours</option>
+    </select>
+
+    <button id="saveButton">Save Settings</button>
+    <div id="status"></div>
+
+    <script src="options.js"></script>
+  </body>
+</html>

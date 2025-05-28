@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Feedly Auto Refresh",
+  "version": "1.0.0",
+  "description": "Automatically refreshes Feedly and displays unread counts on tab icon",
+  "permissions": [
+    "storage",
+    "alarms",
+    "scripting"
+  ],
+  "host_permissions": [
+    "*://feedly.com/*"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://feedly.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "feedly-auto-refresh@manse.jp"
+    }
+  }
+}
