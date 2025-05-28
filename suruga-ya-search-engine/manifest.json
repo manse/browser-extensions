@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "駿河屋から検索",
+  "name": "駿河屋 検索エンジン",
   "version": "1.0",
-  "description": "駿河屋の検索エンジン",
+  "description": "検索エンジンに「駿河屋」を追加します。",
   "icons": {
     "48": "icon.png"
   },
