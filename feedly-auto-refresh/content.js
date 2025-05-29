@@ -5,13 +5,12 @@ const PATH_DS = [
   'M4.464 1.917a.75.75 0 0 0-.743.648l-.007.102v4.19c0 .38.282.694.649.743l.101.007H8.75a.75.75 0 0 0 .102-1.493l-.102-.007H5.215v-3.44a.75.75 0 0 0-.649-.743z',
 ];
 const UNREAD_COUNT_SELECTOR = '.MarkAsReadButton__unread-count';
-const FAVICON_SELECTOR = "link[rel~='icon']";
 const ORIGINAL_FAVICON_HREF = getOriginalFaviconHref();
 const rNumber = /^\d+$/;
 let currentUnreadCount = 0;
 
 function getOriginalFaviconHref() {
-  return document.querySelector(FAVICON_SELECTOR)?.href;
+  return document.querySelector("link[rel~='icon']")?.href ?? 'https://feedly.com/favicon.ico';
 }
 
 function clickRefreshButton() {
@@ -124,15 +123,20 @@ function drawFavicon(unreadCount, callback) {
 }
 
 function updateFavicon(unreadCount) {
-  const link = document.querySelector(FAVICON_SELECTOR);
-  if (!link) {
-    console.warn('Feedly Auto Refresh: Favicon link element not found.');
-    return;
-  }
+  drawFavicon(unreadCount, applyFavicon);
+}
 
-  drawFavicon(unreadCount, newFaviconHref => {
-    link.href = newFaviconHref;
+function applyFavicon(href) {
+  document.querySelectorAll('link').forEach(link => {
+    if (link.getAttribute('rel')?.includes('icon')) {
+      link.remove();
+    }
   });
+  const link = document.createElement('link');
+  link.rel = 'icon';
+  link.type = 'image/png';
+  link.href = href;
+  document.head.appendChild(link);
 }
 
 function updateTitle(unreadCount) {
