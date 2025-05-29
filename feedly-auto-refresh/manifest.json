@@ -14,8 +14,7 @@
   "background": {
     "scripts": [
       "background.js"
-    ],
-    "persistent": true
+    ]
   },
   "content_scripts": [
     {
@@ -38,7 +37,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "feedly-auto-refresh@manse.jp"
+      "id": "info+feedly-auto-refresh@manse.jp"
     }
   }
 }
