@@ -1,56 +1,39 @@
 console.log('Feedly Auto Refresh: Content script loaded.');
 
-const PATH_DS = [
-  'M13.54 3.637c-3.49-1.55-7.614-.355-9.681 2.81a.75.75 0 1 0 1.256.82c1.663-2.546 4.996-3.511 7.816-2.26 2.812 1.25 4.254 4.321 3.391 7.21-.864 2.894-3.782 4.732-6.848 4.304-3.062-.428-5.332-2.986-5.332-5.997a.75.75 0 0 0-1.5 0c0 3.765 2.827 6.952 6.625 7.482 3.794.53 7.415-1.75 8.493-5.36 1.08-3.616-.723-7.456-4.22-9.01',
-  'M4.464 1.917a.75.75 0 0 0-.743.648l-.007.102v4.19c0 .38.282.694.649.743l.101.007H8.75a.75.75 0 0 0 .102-1.493l-.102-.007H5.215v-3.44a.75.75 0 0 0-.649-.743z',
-];
 const UNREAD_COUNT_SELECTOR = '.MarkAsReadButton__unread-count';
 const ORIGINAL_FAVICON_HREF = getOriginalFaviconHref();
 const rNumber = /^\d+$/;
 let currentUnreadCount = 0;
 
-function getOriginalFaviconHref() {
-  return document.querySelector("link[rel~='icon']")?.href ?? 'https://feedly.com/favicon.ico';
-}
-
-function clickRefreshButton() {
-  const refreshButton = document
-    .querySelector(PATH_DS.map(d => `[d="${d}"]`).join(', '))
-    ?.closest('button');
-  if (refreshButton) {
-    console.log('Feedly Auto Refresh: Refresh button found. Clicking.', refreshButton);
-    refreshButton.click();
-  } else {
-    console.warn('Feedly Auto Refresh: Refresh button not found. Auto-refresh may not work.');
-  }
-}
-
 const startTimer = (() => {
-  let timer = -1;
+  let timer = null;
   const start = interval => {
     console.log('Feedly Auto Refresh: Starting timer with interval', interval, 'minutes.');
-    clearInterval(timer);
-    timer = setInterval(() => {
+    if (timer) {
+      clearInterval(timer);
+    }
+    timer = setInterval(async () => {
       console.log('Feedly Auto Refresh: Timer triggered. Attempting to click refresh button.');
-      clickRefreshButton();
+      updateUnreadCountAndTitle(await getRemoteUnreadCount());
     }, interval * 60 * 1000);
   };
-  start(30);
   return start;
 })();
+startTimer(30);
 
-chrome.runtime.sendMessage({ type: 'FEEDLY_AUTO_REFRESH_REQUEST_INTERVAL' }, response => {
-  console.log('Feedly Auto Refresh: Initial interval request response received.');
-  if (response && response.value) {
-    const interval = Number(response.value);
-    startTimer(interval);
-  }
+chrome.runtime.sendMessage({ type: 'FEEDLY_AUTO_REFRESH_REQUEST_INTERVAL' }, async response => {
+  console.log('Feedly Auto Refresh: Initial request response received.', response);
+  const interval = Number(response?.value);
+  if (isNaN(interval) || interval <= 0) return;
+  startTimer(interval);
+  updateUnreadCountAndTitle(await getRemoteUnreadCount());
 });
 
-chrome.runtime.onMessage.addListener(event => {
+chrome.runtime.onMessage.addListener(async event => {
   if (event.type === 'FEEDLY_AUTO_REFRESH_INTERVAL_UPDATED') {
     console.log('Feedly Auto Refresh: Interval updated.');
     startTimer(Number(event.value));
+    updateUnreadCountAndTitle(await getRemoteUnreadCount());
   }
 });
 
@@ -60,24 +43,16 @@ const font = new FontFace(
 );
 font.load().then(() => {
   console.log('Feedly Auto Refresh: Product Sans font loaded successfully.');
-  updateUnreadCountAndTitle(true);
+  updateUnreadCountAndTitle(getDomUnreadCount(), true);
 });
 document.fonts.add(font);
 
 new MutationObserver(() => {
-  updateUnreadCountAndTitle();
+  updateUnreadCountAndTitle(getDomUnreadCount());
 }).observe(document.body, {
   childList: true,
   subtree: true,
 });
-
-function getUnreadCount() {
-  const text = document.querySelector(UNREAD_COUNT_SELECTOR)?.textContent;
-  if (rNumber.test(text)) {
-    return Number(text);
-  }
-  return 0;
-}
 
 function drawFavicon(unreadCount, callback) {
   const size = 32;
@@ -122,8 +97,48 @@ function drawFavicon(unreadCount, callback) {
   };
 }
 
+function getOriginalFaviconHref() {
+  return document.querySelector("link[rel~='icon']")?.href ?? 'https://feedly.com/favicon.ico';
+}
+
+function getFeedlyToken() {
+  const { feedlyToken, feedlyExpirationTime } = JSON.parse(localStorage['feedly.session']);
+  if (Date.now() > feedlyExpirationTime) {
+    return null;
+  }
+  return feedlyToken;
+}
+
+async function getRemoteUnreadCount() {
+  const token = getFeedlyToken();
+  if (!token) {
+    console.warn('Feedly Auto Refresh: No valid JWT token found. Skipping refresh.');
+    return -1;
+  }
+
+  const json = await fetch(`https://api.feedly.com/v3/markers/counts`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    method: 'GET',
+    mode: 'cors',
+  }).then(res => res.json());
+  const count = Math.max(...json.unreadcounts.map(item => item.count));
+  console.log('Feedly Auto Refresh: Remote unread count fetched successfully:', count);
+  return count;
+}
+
+function getDomUnreadCount() {
+  const text = document.querySelector(UNREAD_COUNT_SELECTOR)?.textContent;
+  if (rNumber.test(text)) {
+    return Number(text);
+  }
+  return 0;
+}
+
 function updateFavicon(unreadCount) {
-  drawFavicon(unreadCount, applyFavicon);
+  drawFavicon(Math.min(unreadCount, 999), applyFavicon);
 }
 
 function applyFavicon(href) {
@@ -148,9 +163,7 @@ function updateTitle(unreadCount) {
   }
 }
 
-function updateUnreadCountAndTitle(force) {
-  const newUnreadCount = getUnreadCount();
-
+function updateUnreadCountAndTitle(newUnreadCount, force) {
   if (newUnreadCount !== currentUnreadCount || force) {
     console.log(
       force
