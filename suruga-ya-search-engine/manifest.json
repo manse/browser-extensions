@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "駿河屋 検索エンジン",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "検索エンジンに「駿河屋」を追加します。",
   "icons": {
     "48": "icon.png"
@@ -11,6 +11,7 @@
       "name": "駿河屋",
       "search_url": "https://www.suruga-ya.jp/search?search_word={searchTerms}&is_marketplace=0",
       "favicon_url": "https://www.suruga-ya.jp/drupal/themes/surugaya_mobile/images/pwa/images/icons/favicon-32x32.png",
+      "keyword": "sy",
       "encoding": "UTF-8",
       "is_default": false
     }

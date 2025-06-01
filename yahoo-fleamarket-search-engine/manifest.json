@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Yahoo!フリマ 検索エンジン",
+  "version": "1.0.0",
+  "description": "検索エンジンに「Yahoo!フリマ」を追加します。",
+  "icons": {
+    "48": "icon.png"
+  },
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "Yahoo!フリマ",
+      "search_url": "https://paypayfleamarket.yahoo.co.jp/search/{searchTerms}?page=1",
+      "favicon_url": "https://paypayfleamarket.yahoo.co.jp/favicon.ico",
+      "keyword": "yf",
+      "encoding": "UTF-8",
+      "is_default": false
+    }
+  }
+}

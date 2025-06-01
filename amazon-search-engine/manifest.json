@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Amazon(jp) 検索エンジン",
+  "version": "1.0.0",
+  "description": "検索エンジンに「Amazon(jp)」を追加します。",
+  "icons": {
+    "48": "icon.png"
+  },
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "Amazon",
+      "search_url": "https://www.amazon.co.jp/s?k={searchTerms}",
+      "favicon_url": "https://www.amazon.co.jp/favicon.ico",
+      "keyword": "az",
+      "encoding": "UTF-8",
+      "is_default": false
+    }
+  }
+}

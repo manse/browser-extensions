@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Google Image Search Engine",
+  "version": "1.0.0",
+  "description": "Add 'Google Image' to the search engines.",
+  "icons": {
+    "48": "icon.png"
+  },
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "Google Image",
+      "search_url": "https://www.google.com/search?q={searchTerms}&oq={searchTerms}&sclient=img",
+      "favicon_url": "https://www.google.com/favicon.ico",
+      "keyword": "gi",
+      "encoding": "UTF-8",
+      "is_default": false
+    }
+  }
+}

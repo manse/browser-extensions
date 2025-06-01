@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "メルカリ 検索エンジン",
+  "version": "1.0.0",
+  "description": "検索エンジンに「メルカリ」を追加します。",
+  "icons": {
+    "48": "icon.png"
+  },
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "メルカリ",
+      "search_url": "https://www.mercari.com/jp/search/?keyword={searchTerms}",
+      "favicon_url": "https://www.mercari.com/favicon.ico",
+      "keyword": "me",
+      "encoding": "UTF-8",
+      "is_default": false
+    }
+  }
+}

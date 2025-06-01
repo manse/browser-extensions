@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "ヨドバシカメラ 検索エンジン",
+  "version": "1.0.0",
+  "description": "検索エンジンに「ヨドバシカメラ」を追加します。",
+  "icons": {
+    "48": "icon.png"
+  },
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "Amazon",
+      "search_url": "https://www.yodobashi.com/ec/category/index.html?cate=&word={searchTerms}&ginput=",
+      "favicon_url": "https://www.yodobashi.com/favicon.ico",
+      "keyword": "yc",
+      "encoding": "UTF-8",
+      "is_default": false
+    }
+  }
+}
