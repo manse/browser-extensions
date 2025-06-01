@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
-  "name": "Youtube Search Engine",
-  "version": "1.0.0",
-  "description": "Add 'Youtube' to the search engines.",
+  "name": "YouTube Search Engine",
+  "version": "1.0.1",
+  "description": "Add 'YouTube' to the search engines.",
   "icons": {
     "48": "icon.png"
   },
   "chrome_settings_overrides": {
     "search_provider": {
-      "name": "Youtube",
+      "name": "YouTube",
       "search_url": "https://www.youtube.com/results?search_query={searchTerms}",
       "favicon_url": "https://www.youtube.com/favicon.ico",
       "keyword": "yt",
