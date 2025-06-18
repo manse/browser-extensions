@@ -9,7 +9,7 @@
   "chrome_settings_overrides": {
     "search_provider": {
       "name": "Weblio 英和・和英辞典",
-      "search_url": "http://ejje.weblio.jp/content/{searchTerms}",
+      "search_url": "https://ejje.weblio.jp/content/{searchTerms}",
       "favicon_url": "https://ejje.weblio.jp/favicon.ico",
       "keyword": "we",
       "encoding": "UTF-8",
