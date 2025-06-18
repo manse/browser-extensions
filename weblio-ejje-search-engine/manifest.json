@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Weblio 英和・和英辞典 検索エンジン",
+  "version": "1.0.0",
+  "description": "検索エンジンに「Weblio 英和・和英辞典」を追加します。",
+  "icons": {
+    "48": "icon.png"
+  },
+  "chrome_settings_overrides": {
+    "search_provider": {
+      "name": "Weblio 英和・和英辞典",
+      "search_url": "http://ejje.weblio.jp/content/{searchTerms}",
+      "favicon_url": "https://ejje.weblio.jp/favicon.ico",
+      "keyword": "we",
+      "encoding": "UTF-8",
+      "is_default": false
+    }
+  }
+}
