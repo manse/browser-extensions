@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Feedly Auto Refresh",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Automatically refreshes Feedly and displays unread counts on tab icon",
   "permissions": [
     "storage",
