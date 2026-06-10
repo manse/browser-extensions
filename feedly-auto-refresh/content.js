@@ -12,10 +12,13 @@ const startTimer = (() => {
     if (timer) {
       clearInterval(timer);
     }
-    timer = setInterval(async () => {
-      console.log('Feedly Auto Refresh: Timer triggered. Attempting to click refresh button.');
-      updateUnreadCountAndTitle(await getRemoteUnreadCount());
-    }, interval * 60 * 1000);
+    timer = setInterval(
+      async () => {
+        console.log('Feedly Auto Refresh: Timer triggered. Attempting to click refresh button.');
+        updateUnreadCountAndTitle(await getRemoteUnreadCount());
+      },
+      interval * 60 * 1000,
+    );
   };
   return start;
 })();
@@ -83,13 +86,20 @@ function drawFavicon(unreadCount, callback) {
     const padding = 1;
     const width = ctx.measureText(`${unreadCount}`).width + padding * 2;
     const height = 18;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+    ctx.fillStyle = 'white';
     roundedRectPath(size - width, size - height, width, height, 4);
     ctx.fill();
     ctx.fillStyle = 'black';
     ctx.textBaseline = 'bottom';
     ctx.textAlign = 'right';
     ctx.fillText(`${unreadCount}`, size - padding, size + 3);
+    if (unreadCount > 0) {
+      const dotRadius = 6;
+      ctx.beginPath();
+      ctx.arc(dotRadius, dotRadius, dotRadius, 0, Math.PI * 2);
+      ctx.fillStyle = 'red';
+      ctx.fill();
+    }
     callback(canvas.toDataURL('image/png'));
   };
   img.onerror = () => {
