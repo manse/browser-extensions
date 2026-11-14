@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Yahoo!オークション 検索エンジン",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "検索エンジンに「Yahoo!オークション」を追加します。",
   "icons": {
     "48": "icon.png"
