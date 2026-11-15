@@ -1,14 +1,14 @@
 {
   "manifest_version": 2,
   "name": "Yahoo!オークション 検索エンジン",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "検索エンジンに「Yahoo!オークション」を追加します。",
   "icons": {
     "48": "icon.png"
   },
   "chrome_settings_overrides": {
     "search_provider": {
-      "name": "ヤフオク!",
+      "name": "Yahoo! オークション",
       "search_url": "https://auctions.yahoo.co.jp/opensearch?ei=utf-8&p={searchTerms}",
       "favicon_url": "https://auctions.yahoo.co.jp/favicon.ico",
       "keyword": "ya",
